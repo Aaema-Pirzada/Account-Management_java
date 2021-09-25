@@ -89,9 +89,9 @@ int aNumber = 0;
                         System.out.println("\n\tYour Account Details\n\tDont Forget Account Number\n");
 
                         System.out.println("**************************");                       
-
-                        user.display_details();
-
+                       String Alldisplay;
+                        Alldisplay=user.display_details();
+                         System.out.print(Alldisplay);
                         break;
 
                       
@@ -185,7 +185,7 @@ int aNumber = 0;
 
                               withd=in.nextInt();  
                               if(tmp1==0) {
-                                 if(withd>=5000 && user.Acc_Balance==0 )
+                                 if(withd>=5000 && user.Acc_Balance==0 )  
                                  {
                                 	 System.out.print("Enter Valid Amount");
                                 	 withd=in.nextInt();
@@ -245,12 +245,14 @@ int aNumber = 0;
                             	 tmp1=in.nextInt();
                             	 System.out.print("Enter Amount :");
                             	 withd=in.nextInt();
-                            	 transfer=user.transferAmount(withd);
+                            	 transfer=user.transferAmount(withd,tmp);
+                            	 System.out.print(transfer);
                             	 if(transfer) {
                             		 cb= user.withdraw(withd,user.acc_type);
                             		 System.out.println("Your Amount of : " +withd  +"has been transferred");
-                            	     user.printStatement();
-                            	 
+                            	    String statement;
+                            		statement= user.printStatement();
+                            	    System.out.print(statement);
                             	 }
                             	 
 
@@ -265,10 +267,11 @@ int aNumber = 0;
                       System.out.print("Enter your Account Number :");
 
                       tmp=in.nextInt();                     
-
+                      String alldetails;
                              if(tmp==user.Acc_num){                               
-
-                             user.display_details();                             
+                           
+                           alldetails= user.display_details();
+                           System.out.print(alldetails);
 
                         }else
 
@@ -287,7 +290,7 @@ int aNumber = 0;
                       tmp=in.nextInt();                     
 
                              if(tmp==user.Acc_num && user.acc_type.equalsIgnoreCase("saving")){ 
-                            	 zak=user.calculateZakat();
+                            	 zak=user.calculateZakat(tmp);
                             	 System.out.println("Total Amount Deducted for Zakat is : " +zak);
                              }
                              else 
@@ -302,7 +305,8 @@ int aNumber = 0;
 
                       tmp=in.nextInt();  
                       if(tmp==user.Acc_num)
-                      user.displayalldeduction(tmp);
+                    	  System.out.print("Function under Changes");
+                      //user.displayalldeduction(tmp);
                       else
                          	 System.out.println("Wrong Acount Number");
                       break;

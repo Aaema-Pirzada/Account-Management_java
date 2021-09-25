@@ -1,5 +1,6 @@
 package bankmanagement;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.time.format.DateTimeFormatter;  
 import java.time.LocalDateTime;    
 /**
@@ -83,15 +84,11 @@ class create_account extends Account{
 
     
 
-    void display_details(){
+    String display_details(){
 
-        System.out.println("Depositor Name :" +name);
-
-        System.out.println("Account Number : "+Acc_num);
-
-        System.out.println("Account Balance : "+Acc_Balance);
-
-        System.out.println("Account Type : "+acc_type);
+    	String details;
+	    details = "Depositor Name : " +name + " Account Number :  "+Acc_num +" Account Balance :  "+Acc_Balance +" Account Type :  "+acc_type ;  
+        return details;
 
     }
 
@@ -101,7 +98,7 @@ class create_account extends Account{
 
         }
 
-        
+      
 
         int withdraw(int withd, String acctype){
                 if(acctype.equalsIgnoreCase("Checking")) {
@@ -109,31 +106,40 @@ class create_account extends Account{
                 	 AT[countT]=Acc_num;
                 	 countT++;
                 }
-                else	
+                else if(withd<=Acc_Balance)	
                 Acc_Balance=Acc_Balance-withd;
                  
                 return Acc_Balance;
 
         }
 
-        void printStatement() {
-            display_details();  
+        String printStatement() {
+        	String details;        
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
             LocalDateTime now = LocalDateTime.now();  
-            System.out.println(dtf.format(now));    
-     }
-        boolean transferAmount(int width) {
-        	if(width>Acc_Balance && width<0) 
-        		transferred=false;
-        
-        	else
-        	    transferred=true;
-        	
-        	return transferred;
+            //System.out.println(dtf.format(now));
+            details=display_details()+" "+ dtf.format(now);
+            return details;
         }
+        boolean transferAmount(int width,int acc_no) {
+        if(acc_no==Acc_num) {	
+        	if(width>Acc_Balance)
+        		transferred=false;
+        	else if (width<=0)  
+        		transferred=false;
+
+            else 
+        	{  
+        		transferred=true;
+        	    withdraw(width,acc_type);
+        	}
+        }
+        return transferred;
+       }
   
-   int  calculateZakat(){
+   int  calculateZakat(int accnum){
 	   int zakah=0;
+	   if(accnum==Acc_num) {
 	   if(Acc_Balance>=20000 && acc_type.equalsIgnoreCase("saving"))
 	   {
 		   zakah=(int)(Acc_Balance*0.025);
@@ -142,8 +148,11 @@ class create_account extends Account{
 		   countZ++;
 		   withdraw(zakah,acc_type);
 	   }
-    	return zakah; 
+    	
      }
+	   return zakah; 
+   }   
+   /*
  void displayalldeduction(int accnum) {
 	 for (int i = 0; i < 5; i++) {
 		  if(AT[i]==accnum)
@@ -155,7 +164,7 @@ class create_account extends Account{
 		}
 	
 	 
- }
+ }*/
 } // end class
 
       
